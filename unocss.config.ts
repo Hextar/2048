@@ -35,7 +35,7 @@ export default defineConfig({
       current: 'currentColor',
       primary:'#8f7a66',
       secondary:'#bbada0',
-      tertiary:'rgba(238, 228, 218, 0.35)',
+      tertiary:'#cdc1b4',
       background: '#faf8ef',
       typography: {
         dark: '#776e65',

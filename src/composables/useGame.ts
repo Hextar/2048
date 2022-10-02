@@ -2,8 +2,11 @@ import { ref } from "vue"
 
 import { useScoreStore } from '~/composables/store/useScoreStore'
 import { useSettingsStore } from '~/composables/store/useSettingsStore'
+import { Cell, flattenMatrix, slideMatrixBottom } from '~/utils/matrix'
 
 export enum GAME_VALUES {
+  'OBSTACLE' = -1,
+  'EMPTY' = 0,
   'VAL_2' = 2,
   'VAL_4' = 4,
   'VAL_8' = 8,
@@ -17,19 +20,21 @@ export enum GAME_VALUES {
   'VAL_2048' = 2048,
 }
 
-type Cell = {
-  row: number,
-  col: number,
-  value: number,
-}
-
 const VALID_DIRECTIONS = ['UP', 'RIGHT', 'DOWN', 'LEFT']
 
 export const useGame = () => {
   const { setScore } = useScoreStore()
   const { rows, cols } = useSettingsStore()
 
+  // we keep the status of the current game in
+  // the following 2d number array
   const gameMatrix = ref<number[][]>([[]])
+
+  // we keep a copy of the flattened game matrix
+  // as that's used to calculate the gameMaxValue,
+  // gameScore and emptyCells, therefore for every game
+  // turn we're flattening the map once instead of
+  // multiple times
   const flatGameMatrix = ref<Cell[]>([])
 
   /**
@@ -46,7 +51,8 @@ export const useGame = () => {
    * max values within the game board
    */
   const gameMaxValue = computed<number>(() =>
-    Math.max.apply(Math, flatGameMatrix.value.map(({ value }) => value))
+    Math.max.apply(Math, flatGameMatrix.value
+      .map(({ value }) => value))
   )
 
   /**
@@ -58,7 +64,8 @@ export const useGame = () => {
   )
 
   /**
-   * all empty cells
+   * all empty cells. mostly used to decide where
+   * to spwan new filled cells
    */
   const emptyCells = computed<Cell[]>(() =>
     flatGameMatrix.value
@@ -66,19 +73,15 @@ export const useGame = () => {
   )
 
   /**
-   * flat map to easier check it's values
-   * @param gameMatrix, current conent of the game matrix
+   * all filled cells
    */
-  const flattenGameMatrix = (gameMatrix: number[][]) => {
-    return gameMatrix
-      .reduce((accRow, valueRow, idxRow) => {
-        const cols = valueRow
-          .reduce((accCol, valueCol, idxCol) => {
-            return [...accCol, { row: idxRow, col: idxCol, value: valueCol }]
-          }, <Cell[]>[])
-        return [...accRow, ...cols]
-      }, <Cell[]>[])
-  }
+  const filledCells = computed<Cell[]>(() =>
+    // we're not using the flatGameMatrix support ref here
+    // to avoid the Cell component being recreated, therefore
+    // just playing the appear animation instead of the slide
+    flattenMatrix(gameMatrix.value)
+       .filter(({ value }) => value > 0)
+   )
 
   /**
    * retrieve a cell value using 2d coords
@@ -127,8 +130,8 @@ export const useGame = () => {
    * reset the game matrix to a 0 filled 2d array
    */
   const resetGameMatrix = (): void => {
-    gameMatrix.value = Array(rows).fill(0)
-      .map(()=> Array(cols).fill(0))
+    gameMatrix.value = Array(rows).fill(GAME_VALUES.EMPTY)
+      .map(()=> Array(cols).fill(GAME_VALUES.EMPTY))
   }
 
   /**
@@ -148,8 +151,9 @@ export const useGame = () => {
    * @param initial 
    */
   const slide = (direction: 'UP' | 'RIGHT' | 'DOWN' | 'LEFT') => {
+    if (!gameScore.value) { return }
     if (!direction || !VALID_DIRECTIONS.includes(direction)) { return }
-    console.warn('SLIDE', direction)
+    slideMatrixBottom(gameMatrix.value, gameRows.value, gameCols.value)
     setScore(gameScore.value)
   }
 
@@ -157,9 +161,9 @@ export const useGame = () => {
   // the game store are updated
   watch(() => gameMatrix.value, (val: number[][]) => {
     if (!val) { flatGameMatrix.value = [] }
-    flatGameMatrix.value = flattenGameMatrix(val)
+    flatGameMatrix.value = flattenMatrix(val)
     setScore(gameScore.value)
-  }, { deep: true, immediate: true })
+  }, { deep: true })
 
   // until the game doesn't starts the user
   // is shown an empty game board
@@ -169,9 +173,9 @@ export const useGame = () => {
 
   return {
     gameMatrix,
-    flatGameMatrix,
     gameRows,
     gameCols,
+    filledCells,
     cellValue,
     startGame,
     slide,

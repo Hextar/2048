@@ -37,10 +37,3 @@ const onNewGame = () => {
     </div>
   </section>
 </template>
-
-<style lang="scss" scoped>
-.header {
-  position: relative;
-  z-index: 1;
-}
-</style>

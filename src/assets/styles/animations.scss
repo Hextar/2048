@@ -1,178 +1,29 @@
 .animate__ {
-  &bloody-slash {
-    will-change: opacity, clip-path, fill;
-    transform: translateZ(0);
-    transform-origin: center left;
-    animation: fade-in 0.255s forwards, slash 0.255s forwards, blood 1.275s forwards;
-    -webkit-animation: fade-in 0.255s forwards, slash 0.255s forwards, blood 1.275s forwards;
-  }
-
-  &fade-in {
-    will-change: opacity;
-    transform: translateZ(0);
-
-    @media (min-width: '768px') {
-      animation: fade-in .510s infinite alternate;
-      -webkit-animation: fade-in .510s infinite alternate;
-    }
-  }
-
-  &bounce {
-    will-change: margin-top;
-    transform: translateZ(0);
-
-    @media (min-width: '768px') {
-      animation: bounce 1s infinite alternate;
-      -webkit-animation: bounce 1s infinite alternate;
-    }
-  }
-
-  &gentle-slide-from- {
-    &above {
-      will-change: opacity, transform;
-      transform: translateZ(0);
-      animation: fade-in 0.510s ease-in-out, gentle-slide-from-above 0.510s ease-in-out;
-      -webkit-animation: fade-in 0.510s ease-in-out, gentle-slide-from-above 0.510s ease-in-out;
-    }
-
-    &below {
-      will-change: opacity, transform;
-      transform: translateZ(0);
-      animation: fade-in 0.510s ease-in-out, gentle-slide-from-below 0.510s ease-in-out;
-      -webkit-animation: fade-in 0.510s ease-in-out, gentle-slide-from-below 0.510s ease-in-out;
-    }
-  }
-
-  &slide-from- {
-    &above {
-      will-change: opacity, transform;
-      transform: translateZ(0);
-      animation: fade-in 0.510s ease-in-out, slide-from-above 0.510s ease-in-out;
-      -webkit-animation: fade-in 0.510s ease-in-out, slide-from-above 0.510s ease-in-out;
-    }
-
-    &below {
-      will-change: opacity, transform;
-      animation: fade-in 0.510s ease-in-out, slide-from-below 0.510s ease-in-out;
-      -webkit-animation: fade-in 0.510s ease-in-out, slide-from-below 0.510s ease-in-out;
-    }
-  }
-
-  &shake {
-    animation: shake 4.72s ease infinite;
-    transform-origin: 50% 50%;
-  }
-
-  &spin {
-    animation: spin 0.510s ease-in-out forwards;
-    -webkit-animation: spin 0.510s ease-in-out forwards;
-  }
-
-  &glow {
-    animation: glow 3.6s infinite;
-    -webkit-animation: glow 3.6s infinite;
+  &appear {
+    animation: appear 200ms ease 100ms;
+    animation-fill-mode: backwards;
   }
 }
 
-@keyframes bounce {
-  from {
-    margin-top: 0;
-  }
-  to {
-    margin-top: -15px;
-  }
-}
-
-@keyframes fade-in {
+@keyframes appear {
   0% {
-    opacity: .1;
+    opacity: 0;
+    transform: scale(0);
   }
   100% {
     opacity: 1;
+    transform: scale(1);
   }
 }
 
-@keyframes fade-middle {
+@keyframes pop {
   0% {
-    opacity: .1;
+    transform: scale(0);
   }
-  100% {
-    opacity: .75;
-  }
-}
-
-@keyframes fade-out {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: .1;
-  }
-}
-
-@keyframes slash {
-  0% {
-    clip-path: polygon(0 100%, 0 100%, 0 0, 0 0);
-  }
-  100% {
-    clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
-  }
-}
-
-@keyframes blood {
-  0% {
-    fill: #AF1D1D;
-  }
-  100% {
-    fill: #F1F1F1;
-  }
-}
-
-@keyframes gentle-slide-from-above {
-  0% { transform: translateY(-16px) }
-  100% { transform: translateY(0) }
-}
-
-@keyframes gentle-slide-from-below {
-  0% { transform: translateY(0) }
-  100% { transform: translateY(-16px) }
-}
-
-@keyframes slide-from-above {
-  0% { transform: translateY(-32px) }
-  100% { transform: translateY(0) }
-}
-
-@keyframes slide-from-below {
-  0% { transform: translateY(0) }
-  100% { transform: translateY(-32px) }
-}
-
-@keyframes spin {
-  from { transform:rotate(0deg) }
-  to { transform:rotate(360deg) }
-}
-
-@keyframes glow {
-
-  0%,
-  100% {
-    box-shadow: 0 0 8px 8px #AF1D1D;
-  }
-
   50% {
-    box-shadow: 0 0 48px 16px #630000;
-    ;
+    transform: scale(1.2);
   }
-}
-
-@keyframes shake {
-  0% { transform:translate(0,0) }
-  1.78571% { transform:translate(5px,0) }
-  3.57143% { transform:translate(0,0) }
-  5.35714% { transform:translate(5px,0) }
-  7.14286% { transform:translate(0,0) }
-  8.92857% { transform:translate(5px,0) }
-  10.71429% { transform:translate(0,0) }
-  100% { transform:translate(0,0) }
+  100% {
+    transform: scale(1);
+  }
 }

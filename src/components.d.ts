@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Article: typeof import('./components/common/typography/Article.vue')['default']
     Button: typeof import('./components/common/button/Button.vue')['default']
+    Cell: typeof import('./components/gameBoard/Cell.vue')['default']
     Footer: typeof import('./components/layout/layout/Footer.vue')['default']
     Header: typeof import('./components/layout/layout/Header.vue')['default']
     Logo: typeof import('./components/common/logo/Logo.vue')['default']
