@@ -1,0 +1,34 @@
+$sizes: (
+  small: (
+    height: 30px,
+    margin: 8px,
+    icon: 28px,
+    slot-icon: 20px,
+    slot-shortcut: 16px
+  ),
+  medium: (
+    height: 40px,
+    margin: 8px,
+    icon: 34px,
+    slot-icon: 20px,
+    slot-shortcut: 24px
+  ),
+  large: (
+    height: 50px,
+    margin: 8px,
+    icon: 44px,
+    slot-icon: 20px,
+    slot-shortcut: 24px
+  ),
+);
+
+.button--size {
+  @each $key in map-keys($sizes) {
+    $size: map-get($sizes, $key);
+    $height: map-get($size, 'height');
+
+    &--#{"" + $key} {
+      height: $height;
+    }
+  }
+}

@@ -1,0 +1,48 @@
+@mixin scrollbar {
+  $thumbColor: rgba(40, 40, 40, .66);
+  $thumbColorHover: rgba(175, 29, 29, .66);
+
+  // firefox
+  scrollbar-color: $thumbColor transparent;
+  scrollbar-width: thin;
+
+  overflow-y: auto;
+  overflow-x: auto;
+  overflow-y: overlay;
+  overflow-x: overlay;
+
+  &:hover::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  // chrome, opera, safari
+  &::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+    right: 4px;
+    transition: all .3s ease-in-out;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    right: 4px;
+    border-radius: 6px;
+    background-color: $thumbColor;
+    transition: all .3s ease-in-out;
+    opacity: .33;
+    cursor: move;
+    cursor: grab;
+
+    &:hover {
+      background-color: $thumbColorHover;
+      cursor: move;
+      cursor: grabbing;
+      opacity: .95;
+    }
+
+    &:focus,
+    &:active {
+      cursor: grabbing;
+      opacity: .95;
+    }
+  }
+}

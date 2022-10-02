@@ -1,0 +1,13 @@
+@import "./animations.scss";
+@import "./nprogress.scss";
+@import "./svg.scss";
+
+body {
+  @apply bg-background;
+  @include scrollbar;
+
+  #app {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}

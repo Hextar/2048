@@ -1,0 +1,66 @@
+$variants: 'filled', 'outline';
+$colors: (
+  primary: (
+    default: #8f7a66,
+    border: #8f7a66,
+    hover: #8f7a66,
+    pressed: #bbada0,
+    text: #f9f6f2,
+    semiTransparent: rgba(0, 0, 0, 0.08),
+  )
+);
+
+// variant and colors are managed in the same file
+// as we need to apply a bordered color for the outlined
+// variant instead of a bacckground-color
+.button--variant {
+  @each $variant in $variants {
+    &--#{$variant} {
+      @each $key in map-keys($colors) {
+        $color: map-get($colors, $key);
+
+        &.button--color--#{"" + $key} {
+          @if $variant == 'outline' {
+            background-color: map-get($color, 'semiTransparent');
+            @if $key == 'secondary' {
+              color: map-get($color, 'text') !important;
+            } @else {
+              color: map-get($color, 'default') !important;
+            }
+          } @else {
+            background-color: map-get($color, 'default');
+            color: map-get($color, 'text') !important;
+          }
+
+          &:hover {
+            @if $variant == 'outline' {
+              color: map-get($color, 'hover') !important;
+            } @else {
+              background-color: map-get($color, 'hover');
+            }
+
+            opacity: 0.85;
+          }
+
+          &:focus,
+          &:active {
+            outline: none;
+            box-shadow: none;
+
+            opacity: 0.55;
+          }
+
+          &[disabled] {
+            opacity: .33;
+            pointer-events: none;
+          }
+        }
+
+        &[disabled] {
+          opacity: .33;
+          pointer-events: none;
+        }
+      }
+    }
+  }
+}

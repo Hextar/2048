@@ -1,0 +1,18 @@
+{
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "semi": false,
+  "singleQuote": true,
+  "printWidth": 80,
+  "importOrder": [
+    "^~/assets/(.*)$",
+    "^~/components/(.*)$",
+    "^~/composables(.*)$",
+    "^~/types(.*)$",
+    "^~/utils(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "singleAttributePerLine": true
+}
